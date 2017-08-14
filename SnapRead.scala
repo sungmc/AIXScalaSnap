@@ -9,30 +9,13 @@ object SnapRead extends App {
   import java.nio.file._
   import collection.JavaConverters._
 
-  val dir = FileSystems.getDefault.getPath("snap/general")
-  
-  
-  // Use Case
-  // Files.walk(dir).iterator().asScala.foreach( p => println(p.toFile().isDirectory() + " " + p))
-  // Files.walk(dir).iterator().asScala.foreach(println)
-
-  /*
-  for (f <- Files.walk(dir).iterator().asScala.filter(f => f.toFile().isFile())) { // No directory
-    //println(f.toString())
-    allCmds ++= FileToCommand(f.toString())
-  }
-  * 
-  */
+  val dir = FileSystems.getDefault.getPath("snap/lvm")
 
   for (f <- Files.walk(dir).iterator().asScala.filter(f => f.toFile().isFile())) { // No directory  
     //allCmds ++= FileToCommand(f.toString())
     println("File is " + f)
     createCommands(FileToCommand_v2(f.toString()))
   }
-  /*
-  createCommands(FileToCommand_v2("lvm.snap"))
-  * 
-  */
 
   println("""
 *******************************************************************************
@@ -50,6 +33,6 @@ object SnapRead extends App {
   while (!name.equals("quit")) {
     // readLine lets you prompt the user and read their input as a String
     name = readLine("$ ")
-    println(SnapUtilies.cmdMap.get(name))
+    println(SnapUtilies.cmdMap.get(name).getOrElse(None))
   }
 }

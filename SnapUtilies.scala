@@ -8,7 +8,7 @@ object SnapUtilies {
   def createCommands(x:Map[String,String]) {
      x.foreach {
        case (k, m) => { 
-         new AIXCommand(k, m)
+         //new AIXCommand(k, m)
          //println(s"$k $m")
          cmdMap ++= List(k -> m)
        }
@@ -61,13 +61,11 @@ object SnapUtilies {
   }
 
   def FileToCommand(txtName: String): List[String] = {
-    //File open
     import scala.io.Source
-    //val filename = "lvm.snap"
+    //e.g. filename = "lvm.snap"
     val source = Source.fromFile(txtName, "UTF-8")
 
     // Collection
-
     val cmdsGroup = ListBuffer.empty[String]
 
     val lines = source.getLines()
@@ -88,7 +86,6 @@ object SnapUtilies {
           if (!blockStart) { // First command appears
             blockStart = true // Block begins
           } else if (blockStart && !blockEnd) { // Block ends & another command starts
-            //println(block)
             cmdsGroup += block
             block = "" // Clear for next block
             blockEnd = false // Reset mark
@@ -103,14 +100,6 @@ object SnapUtilies {
     source.close() // Close file resource
 
     cmdsGroup += block // Add last found to ListBuffer
-    /*
-    for (k <- cmdsGroup)
-      println(k)
-      * 
-      */
-
-    println("\nnumber of commands = " + cmdsGroup.length)
-
     cmdsGroup.toList
   }
 }

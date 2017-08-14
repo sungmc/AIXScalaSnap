@@ -62,16 +62,10 @@ class Command(cmdOutput: String) {
 
 
 class AIXCommand(cmdString: String, cmdOutput: String) extends Command(cmdOutput) {
-  /*
-    cmdString.split("-").foreach(f => { if (!f.isEmpty()) 
-                                          print(f + " ")
-                                      })
-       */
   val cmds = cmdString.split("-")
   override val cmdName = cmds.head
   override val options = stripOptions(cmds)
 
-  //println(cmdName + options)
   override val cmdType = cmdName match {
     case ("lspv") => "LVM"
     case _        => ""
