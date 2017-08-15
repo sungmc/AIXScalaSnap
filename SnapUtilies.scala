@@ -15,13 +15,6 @@ object SnapUtilies {
     }
   }
 
-  def findCmdType(dir: String): Int = {
-    if (dir.contains("lvm"))
-      return Command.LVM
-    else
-      -1
-  }
-
   def FileToCommand_v2(txtName: String): Map[String, String] = {
     //File open
     import scala.io.Source

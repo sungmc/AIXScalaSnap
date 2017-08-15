@@ -17,23 +17,17 @@ class Cmd (val cstr: String, val ostr:String) {
 
 }
 
-
 class aixcmd(cmdString: String, cmdOutput: String, dir:String) extends Cmd(cmdString, cmdOutput) {
   show()
-  // Build Device Tree
-  val cmdtype = findCmdType(dir)
+  val cmdtype = {
+    if (dir.contains("lvm")) Command.LVM
+    else -1      
+  }
     
   def show() {
     print("Command is " + command)
     if (length > 1) println("-" + options)
     else println
-  }
-  
-  def findCmdType(dir:String):Int = {
-    if (dir.contains("lvm"))
-      return Command.LVM
-    else
-      -1  
   }
 }
 
