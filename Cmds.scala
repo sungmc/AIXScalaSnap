@@ -18,7 +18,7 @@ class Cmd (val cstr: String, val ostr:String) {
 }
 
 class aixcmd(cmdString: String, cmdOutput: String, dir:String) extends Cmd(cmdString, cmdOutput) {
-  show()
+  //show()
   val cmdtype = {
     if (dir.contains("lvm")) Command.LVM
     else -1      
