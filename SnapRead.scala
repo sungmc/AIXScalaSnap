@@ -13,8 +13,10 @@ object SnapRead extends App {
 
   for (f <- Files.walk(dir).iterator().asScala.filter(f => f.toFile().isFile())) { // No directory  
     //allCmds ++= FileToCommand(f.toString())
+    var cmdtype = findCmdType(dir.toString())
+ 
     println("File is " + f)
-    createCommands(FileToCommand_v2(f.toString()))
+    createCommands(FileToCommand_v2(f.toString()), dir.toString())
   }
 
   println("""

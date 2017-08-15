@@ -5,16 +5,23 @@ object SnapUtilies {
   
   val cmdMap = MapMaker.makeMap
   
-  def createCommands(x:Map[String,String]) {
+  
+  def createCommands(x:Map[String,String], dir:String) {
      x.foreach {
        case (k, m) => { 
          //new AIXCommand(k, m)
-         new aixcmd(k, m)
+         new aixcmd(k, m, dir)
          cmdMap ++= List(k -> m)
        }
      }
   }
-  
+
+  def findCmdType(dir:String):Int = {
+    if (dir.contains("lvm"))
+      return Command.LVM
+    else
+      -1
+  }
   
   def FileToCommand_v2(txtName: String): Map[String, String] = {
     //File open

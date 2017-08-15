@@ -14,23 +14,27 @@ class Cmd (val cstr: String, val ostr:String) {
   val length = cmds.length
   val options = if (cmds.length > 1) cmds.last
                 else ""
-  
-  val category = command match {
-    case ("lspv") => Command.LVM             
-    case _        => -1
-  }
- 
+
+}
+
+
+class aixcmd(cmdString: String, cmdOutput: String, dir:String) extends Cmd(cmdString, cmdOutput) {
+  show()
+  // Build Device Tree
+  val cmdtype = findCmdType(dir)
+    
   def show() {
     print("Command is " + command)
     if (length > 1) println("-" + options)
     else println
   }
-}
-
-
-class aixcmd(cmdString: String, cmdOutput: String) extends Cmd(cmdString, cmdOutput) {
-  show()
-  // Build Device Tree
+  
+  def findCmdType(dir:String):Int = {
+    if (dir.contains("lvm"))
+      return Command.LVM
+    else
+      -1  
+  }
 }
 
 
