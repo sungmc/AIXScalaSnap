@@ -9,11 +9,12 @@ object SnapRead extends App {
   import java.nio.file._
   import collection.JavaConverters._
 
-  val dir = FileSystems.getDefault.getPath("snap/lvm")
+  val dir = FileSystems.getDefault.getPath("snap")
 
   for (f <- Files.walk(dir).iterator().asScala.filter(f => f.toFile().isFile())) { // No directory  
     //println("File is " + f)
-    createCommands(FileToCommand_v2(f.toString()), dir.toString())
+    if (f.toString().endsWith("snap"))  // Read in *.snap file only
+      createCommands(FileToCommand_v2(f.toString()), dir.toString())
   }
 
   println(welcomeMessage)
