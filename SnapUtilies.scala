@@ -9,7 +9,7 @@ object SnapUtilies {
      x.foreach {
        case (k, m) => { 
          //new AIXCommand(k, m)
-         //println(s"$k $m")
+         new aixcmd(k, m)
          cmdMap ++= List(k -> m)
        }
      }

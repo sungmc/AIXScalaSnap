@@ -5,14 +5,40 @@ class Root {
   var counts = 0
 }
 
+// http://www.scala-lang.org/old/node/115
+// Is inner class a solution?
 
-trait Cmd extends Comparable[String] {
-
-  def show() {
-    print()
+class Cmd (val cstr: String, val ostr:String) {
+  val cmds = cstr.split("-")  // Splitting options 
+  val command = cmds.head
+  val length = cmds.length
+  val options = if (cmds.length > 1) cmds.last
+                else ""
+  
+  val category = command match {
+    case ("lspv") => Command.LVM             
+    case _        => -1
   }
-
+ 
+  def show() {
+    print("Command is " + command)
+    if (length > 1) println("-" + options)
+    else println
+  }
 }
+
+
+class aixcmd(cmdString: String, cmdOutput: String) extends Cmd(cmdString, cmdOutput) {
+  show()
+}
+
+
+
+
+
+// ===================================== 
+//
+//
 
 class DevName(name:String = "") {
 }
@@ -40,11 +66,13 @@ object Command {
   def apply(cmdOutput: String) {
     new Command(cmdOutput)
   }
+  val LVM = 1
+  val FS  = 2
 }
 // Superclass of all commands
 class Command(cmdOutput: String) {
   var lsCmd = false
-  val cmdType = ""
+  val cmdType = -1
   val cmdName = ""
   val options = ""
   def stripOptions(opt: Array[String]) = {
@@ -67,24 +95,12 @@ class AIXCommand(cmdString: String, cmdOutput: String) extends Command(cmdOutput
   override val options = stripOptions(cmds)
 
   override val cmdType = cmdName match {
-    case ("lspv") => "LVM"
-    case _        => ""
+    case ("lspv") => Command.LVM              
+    case _        => -1
   }
   
   val DevT = new BuildDeviceTree(this)
   
-  if (cmdType == "LVM") {
-    println("LVM")
-    if (cmdName.equals("lspv")) {
-      println("lspv")
-             
-    }
-      
-  }
-  
-  printCmd
-}
-
-class LVMCommand(cmd:String, output:String) extends AIXCommand(cmd, output) {
+  //printCmd
 }
 

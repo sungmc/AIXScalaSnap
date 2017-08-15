@@ -17,8 +17,11 @@ class Disk(name:String) extends Device(name) {
 
 
 class BuildDeviceTree (cmd:Command) {
-  cmd match {
-    case _ => println("Build dev tree")
+  cmd.cmdType match {
+    case (Command.LVM) => { cmd.printCmd
+                            
+    }
+    case _ => // println("Unknown command type")
   }
 }
   

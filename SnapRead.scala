@@ -29,10 +29,12 @@ object SnapRead extends App {
 *                                                                             *
 *                                                                             *
 *******************************************************************************""")
-  var name: String = ""
+  var name: String = " "
   while (!name.equals("quit")) {
     // readLine lets you prompt the user and read their input as a String
-    name = readLine("$ ")
+    do {
+      name = scala.io.StdIn.readLine("$ ")
+    } while (name.isEmpty())
     println(SnapUtilies.cmdMap.get(name).getOrElse(None))
   }
 }
