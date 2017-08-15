@@ -2,27 +2,26 @@
 
 object SnapUtilies {
   import scala.collection.mutable.{ ListBuffer, Map }
-  
+
   val cmdMap = MapMaker.makeMap
-  
-  
-  def createCommands(x:Map[String,String], dir:String) {
-     x.foreach {
-       case (k, m) => { 
-         //new AIXCommand(k, m)
-         new aixcmd(k, m, dir)
-         cmdMap ++= List(k -> m)
-       }
-     }
+
+  def createCommands(x: Map[String, String], dir: String) {
+    x.foreach {
+      case (k, m) => {
+        //new AIXCommand(k, m)
+        new aixcmd(k, m, dir)
+        cmdMap ++= List(k -> m)
+      }
+    }
   }
 
-  def findCmdType(dir:String):Int = {
+  def findCmdType(dir: String): Int = {
     if (dir.contains("lvm"))
       return Command.LVM
     else
       -1
   }
-  
+
   def FileToCommand_v2(txtName: String): Map[String, String] = {
     //File open
     import scala.io.Source
@@ -48,7 +47,7 @@ object SnapUtilies {
         // Controls mark in a file
         if (i.contains(cmdDelimiter)) {
           cmd = nextcmd
-          nextcmd = i.substring(cmdDelimiter.length()+1) // Extract command
+          nextcmd = i.substring(cmdDelimiter.length() + 1) // Extract command
           if (!blockStart) {
             blockStart = true // Block begins        
           } else if (blockStart && !blockEnd) { // Block ends & another command starts
@@ -62,7 +61,7 @@ object SnapUtilies {
       }
     }
     source.close() // Close file resource
-    
+
     cmdsMap += (nextcmd -> block)
     cmdsMap
   }
@@ -109,4 +108,17 @@ object SnapUtilies {
     cmdsGroup += block // Add last found to ListBuffer
     cmdsGroup.toList
   }
+
+  val welcomeMessage = """
+*******************************************************************************
+*                                                                             *
+*                                                                             *
+*  Welcome to AIX Version 6.1!                                                *
+*                                                                             *
+*                                                                             *
+*  Please see the README file in /usr/lpp/bos for information pertinent to    *
+*  this release of the AIX Operating System.                                  *
+*                                                                             *
+*                                                                             *
+*******************************************************************************"""
 }
