@@ -30,6 +30,7 @@ class Cmd (val cstr: String, val ostr:String) {
 
 class aixcmd(cmdString: String, cmdOutput: String) extends Cmd(cmdString, cmdOutput) {
   show()
+  // Build Device Tree
 }
 
 
