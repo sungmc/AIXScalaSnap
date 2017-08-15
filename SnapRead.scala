@@ -9,47 +9,22 @@ object SnapRead extends App {
   import java.nio.file._
   import collection.JavaConverters._
 
-  val dir = FileSystems.getDefault.getPath("snap/general")
-  
-  
-  // Use Case
-  // Files.walk(dir).iterator().asScala.foreach( p => println(p.toFile().isDirectory() + " " + p))
-  // Files.walk(dir).iterator().asScala.foreach(println)
-
-  /*
-  for (f <- Files.walk(dir).iterator().asScala.filter(f => f.toFile().isFile())) { // No directory
-    //println(f.toString())
-    allCmds ++= FileToCommand(f.toString())
-  }
-  * 
-  */
-
+  val dir = FileSystems.getDefault.getPath("snap")
+    
+  import sys.process._  // https://alvinalexander.com/scala/how-to-execute-external-system-commands-in-scala
   for (f <- Files.walk(dir).iterator().asScala.filter(f => f.toFile().isFile())) { // No directory  
-    //allCmds ++= FileToCommand(f.toString())
     println("File is " + f)
-    createCommands(FileToCommand_v2(f.toString()))
+    if (f.toString().endsWith("snap"))  // Read in just *.snap
+      createCommands(FileToCommand_v2(f.toString()), dir.toString())
   }
-  /*
-  createCommands(FileToCommand_v2("lvm.snap"))
-  * 
-  */
 
-  println("""
-*******************************************************************************
-*                                                                             *
-*                                                                             *
-*  Welcome to AIX Version 6.1!                                                *
-*                                                                             *
-*                                                                             *
-*  Please see the README file in /usr/lpp/bos for information pertinent to    *
-*  this release of the AIX Operating System.                                  *
-*                                                                             *
-*                                                                             *
-*******************************************************************************""")
-  var name: String = ""
-  while (!name.equals("quit")) {
+  println(welcomeMessage)
+  var line:String = ""
+  while (!line.equals("quit")) {
     // readLine lets you prompt the user and read their input as a String
-    name = readLine("$ ")
-    println(SnapUtilies.cmdMap.get(name))
+    do {
+      line = scala.io.StdIn.readLine("$ ")
+    } while (line.isEmpty())
+    println(SnapUtilies.cmdMap.get(line).getOrElse(None))
   }
 }
